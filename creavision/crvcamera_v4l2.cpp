@@ -161,6 +161,8 @@ CCameraV4L2::~CCameraV4L2(void)
 
 bool CCameraV4L2::DoOpen ()
 {
+	printf("Doing open on %i\n", m_Id);
+
 	slog_write (SLOG_PRIO_DEBUG, "CCameraV4L2::DoOpen: begin\n");
 	if (m_libWebcamHandle!= 0) {
 		slog_write (SLOG_PRIO_NOTICE, "CCameraV4L2::DoOpen: already open\n");

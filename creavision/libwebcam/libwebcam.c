@@ -128,6 +128,7 @@ CHandle c_open_device (const char *device_name)
 		print_libwebcam_error("Unable to open device '%s'. Unrecognized device name.", device_name);
 		return 0;
 	}
+	printf("Opening device %s\n", device_name);
 	Device *device = find_device_by_name(v4l2_name);
 	if(device == NULL) {
 		print_libwebcam_error("Unable to open device '%s'. Device not found.", device_name);
@@ -327,6 +328,7 @@ CResult c_get_device_info (CHandle hDevice, const char *device_name, CDevice *in
 		info_src = &GET_HANDLE(hDevice).device->device;
 	}
 	else if(device_name) {		// By device name
+		printf("Getting device info %s\n", device_name);
 		Device *device = find_device_by_name(device_name);
 		if(device == NULL)
 			return C_NOT_FOUND;
@@ -2435,6 +2437,7 @@ static void cleanup_device_list (void)
  */
 static Device *find_device_by_name (const char *name)
 {
+	printf("Finding device by name %s\n", name);
 	Device *elem = device_list.first;
 	while(elem) {
 		if(strcmp(name, elem->v4l2_name) == 0)
@@ -2497,10 +2500,11 @@ static CResult refresh_device_list (void)
 	if(v4l_dir) {
 		while((dir_entry = readdir(v4l_dir))) {
 			// Ignore non-video devices
-			if(strstr(dir_entry->d_name, "video") != dir_entry->d_name &&
+			if(strstr(dir_entry->d_name, "video0") != dir_entry->d_name &&
 					strstr(dir_entry->d_name, "subdev") != dir_entry->d_name)
 				continue;
 
+			printf("Validating %s\n", dir_entry->d_name);
 			Device *dev = find_device_by_name(dir_entry->d_name);
 			if(dev) {
 				dev->valid = 1;

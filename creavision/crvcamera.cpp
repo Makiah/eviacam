@@ -50,6 +50,7 @@ CCamera::~CCamera(void)
 
 bool CCamera::Open()
 {
+	printf("Doing open");
 	bool retval= DoOpen();
 	if (retval) m_lastTimeStamp= GetTime();
 	return retval;

@@ -109,7 +109,8 @@ CCameraCV::CCameraCV(int cameraId, unsigned int width, int unsigned height, floa
 	m_Width= width;
 	m_Height= height;
 	m_FrameRate= fr;
-	m_pCvCapture = new cv::VideoCapture();
+	printf("Initializing capture for %i\n", cameraId);
+	m_pCvCapture = new cv::VideoCapture(0);
 
 #if defined(WIN32)
 	VfwCamFpsWorkaround ();
@@ -125,6 +126,8 @@ CCameraCV::~CCameraCV(void)
 
 bool CCameraCV::DoOpen ()
 {
+	printf("Doing open on %i\n", m_Id);
+
 	if (m_pCvCapture->isOpened()) return true;	// Already opened
 	m_pCvCapture->open(m_Id);
 	if (!m_pCvCapture->isOpened()) return false;
